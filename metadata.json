@@ -1,0 +1,6 @@
+{
+  "name": "HC UI Gallery Luxury",
+  "description": "Premium modern luxury website and UI templates marketplace by HCDecor HUB. Discover curated bespoke web templates with live demos, quotation requests, and code export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
