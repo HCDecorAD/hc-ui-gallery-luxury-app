@@ -55,10 +55,10 @@ if not "!BLD!"=="0" ( echo [fail] build - see logs\build.log & goto retry )
 if not exist dist\index.html ( echo [fail] dist\index.html missing & goto retry )
 echo [check] dist\index.html present
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Start-Process -FilePath npx.cmd -ArgumentList 'vite','preview','--port','4173','--strictPort' -PassThru -WindowStyle Hidden -RedirectStandardOutput logs\preview.log; try { $c=0; for($i=0;$i -lt 20;$i++){ try { $c=(Invoke-WebRequest -UseBasicParsing ('http://127.0.0.1:4173'+$env:BASE)).StatusCode; break } catch { Start-Sleep 1 } }; Write-Output $c } finally { taskkill /PID $p.Id /T /F | Out-Null }" >logs\preview.code 2>logs\preview.err
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Start-Process -FilePath npx.cmd -ArgumentList 'vite','preview','--host','127.0.0.1','--port','4173','--strictPort' -PassThru -WindowStyle Hidden -RedirectStandardOutput logs\preview.log; try { $c=0; for($i=0;$i -lt 20;$i++){ try { $c=(Invoke-WebRequest -UseBasicParsing ('http://127.0.0.1:4173'+$env:BASE)).StatusCode; break } catch { Start-Sleep 1 } }; Write-Output $c } finally { taskkill /PID $p.Id /T /F | Out-Null }" >logs\preview.code 2>logs\preview.err
 set /p PCODE=<logs\preview.code
 echo [check] local preview HTTP !PCODE!
-if not "!PCODE!"=="200" ( echo [fail] preview not 200 - see logs\preview.err & goto retry )
+if not "!PCODE!"=="200" ( echo [fail] preview not 200 & goto finalfail )
 
 powershell -NoProfile -ExecutionPolicy Bypass -Command "try { (Invoke-WebRequest -UseBasicParsing 'https://hcdecorad.github.io/hc-ui-gallery-luxury-app/').StatusCode } catch { 0 }" >logs\pages.code 2>nul
 set /p GCODE=<logs\pages.code
@@ -67,6 +67,11 @@ echo [check] live Pages HTTP !GCODE!
 echo DONE attempt=!N! lint=!LINT! build=!BLD! dist=ok preview=!PCODE! pages=!GCODE!>logs\RESULT.txt
 type logs\RESULT.txt
 exit /b 0
+
+:finalfail
+echo FAILED step=preview http=!PCODE! (install lint build dist were ok) see logs\preview.log logs\preview.err>logs\RESULT.txt
+type logs\RESULT.txt
+exit /b 1
 
 :retry
 if !N! LSS %MAX% goto loop
