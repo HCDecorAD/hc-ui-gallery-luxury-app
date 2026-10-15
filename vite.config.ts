@@ -5,6 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages serves under /<repo>/; set VITE_BASE in CI. Local dev stays '/'.
+    base: process.env.VITE_BASE ?? '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
