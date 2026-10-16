@@ -28,11 +28,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         onClick={() => onOpenDetail(template)}
         className="relative aspect-[16/10] overflow-hidden bg-[#f4eee6] cursor-pointer"
       >
-        {/* Prominent "Illustrative Template" Badge */}
+        {/* Prominent "Open-source source" Badge */}
         <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1a1a1a]/90 backdrop-blur-md border border-[#c9a96e]/50 shadow-sm pointer-events-none">
           <span className="w-1.5 h-1.5 rounded-full bg-[#c9a96e] animate-pulse" />
           <span className="text-[10px] uppercase tracking-wider font-mono font-semibold text-[#c9a96e]">
-            Illustrative Template
+            Open-source source
           </span>
         </div>
 
@@ -47,7 +47,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         {!imageError && (
           <img
             src={template.imageUrl}
-            alt={`${template.name} illustrative template preview`}
+            alt={`${template.name} project artwork`}
             referrerPolicy="no-referrer"
             loading="lazy"
             onLoad={() => setImageLoaded(true)}
@@ -82,12 +82,12 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 {template.category}
               </span>
               <span aria-hidden="true" className="text-slate-300">·</span>
-              <span className="text-slate-500 font-mono text-[11px]">Demo Template</span>
+              <span className="text-slate-500 font-mono text-[11px]">Source available</span>
             </div>
 
             <div className="flex items-center gap-1 text-[11px] font-mono text-slate-600">
-              <Star className="w-3 h-3 text-[#c9a96e] fill-[#c9a96e]" />
-              <span>{template.rating}</span>
+              <Code2 className="w-3 h-3 text-[#c9a96e]" />
+              <span>OSS</span>
             </div>
           </div>
 
@@ -150,7 +150,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
             aria-label={`Get quote for ${template.name}`}
           >
-            <span>Báo giá</span>
+            <span>Tùy biến mẫu</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
