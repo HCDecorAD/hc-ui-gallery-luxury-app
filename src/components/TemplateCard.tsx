@@ -150,11 +150,18 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           
           {/* Very prominent Gold "Báo giá" (Get Quote) CTA button */}
           <button
-            onClick={() => { setShowBuilder(!showBuilder); setCopied(false); }}
+            onClick={() => {
+              if (!['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'].includes(template.id)) {
+                window.open(template.sourceUrl, '_blank', 'noopener,noreferrer');
+                return;
+              }
+              setShowBuilder(!showBuilder);
+              setCopied(false);
+            }}
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
             aria-label={`Chuẩn bị lệnh tạo APP từ ${template.name}`}
           >
-            <span>Tạo APP trên HOCUONG</span>
+            <span>{['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'].includes(template.id) ? 'Tạo APP trên HOCUONG' : 'Xem source GitHub'}</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
