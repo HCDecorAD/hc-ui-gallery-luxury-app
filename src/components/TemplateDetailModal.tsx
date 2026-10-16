@@ -50,7 +50,7 @@ export const TemplateDetailModal: React.FC<TemplateDetailModalProps> = ({
             <span className="font-semibold text-[#c9a96e] uppercase tracking-wider">{template.category}</span>
             <span>·</span>
             <span className="px-2 py-0.5 rounded bg-[#f4eee6] border border-[#e8e0d5] text-[#1a1a1a] font-mono text-[11px] font-medium">
-              Illustrative Template
+              Open-source source
             </span>
             <span>·</span>
             <span className="font-mono">v{template.version}</span>
