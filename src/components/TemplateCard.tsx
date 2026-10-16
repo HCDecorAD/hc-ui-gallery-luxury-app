@@ -19,6 +19,10 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [showBuilder, setShowBuilder] = useState(false);
+  const [appName, setAppName] = useState('HC-' + template.id + '-App');
+  const [brand, setBrand] = useState('HCDecor');
+  const [copied, setCopied] = useState(false);
 
   return (
     <article className="group bg-white rounded-lg border border-[#e8e0d5] hover:border-[#c9a96e]/70 transition-all duration-300 hover:shadow-[0_8px_30px_-6px_rgba(26,26,26,0.08)] flex flex-col h-full overflow-hidden relative">
@@ -146,37 +150,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           
           {/* Very prominent Gold "Báo giá" (Get Quote) CTA button */}
           <button
-            onClick={() => {
-              const supported = ['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'];
-              if (!supported.includes(template.id)) {
-                window.open(template.sourceUrl, '_blank', 'noopener,noreferrer');
-                return;
-              }
-              const defaultName = 'HC-' + template.id + '-App';
-              const chosen = window.prompt('Tên APP mới trên HOCUONG:', defaultName);
-              if (chosen === null) return;
-              const safeName = chosen.trim();
-              if (!/^[A-Za-z0-9_-]{3,60}$/.test(safeName)) {
-                window.alert('Tên APP phải có 3–60 ký tự chữ, số, _ hoặc -.');
-                return;
-              }
-              const chosenBrand = window.prompt('Thương hiệu / Brand:', 'HCDecor');
-              if (chosenBrand === null) return;
-              const brand = chosenBrand.trim();
-              if (!/^[A-Za-z0-9_-]{1,60}$/.test(brand)) {
-                window.alert('Brand chỉ dùng chữ, số, _ hoặc - (1–60 ký tự).');
-                return;
-              }
-              const command = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + safeName + ' ' + brand;
-              const message = 'TEMPLATE: ' + template.name + '\\nAPP: ' + safeName + '\\nBRAND: ' + brand + '\\n\\nChạy trên HOCUONG:\\n' + command;
-              if (navigator.clipboard?.writeText) {
-                void navigator.clipboard.writeText(command)
-                  .then(() => window.alert('Đã sao chép lệnh.\\n\\n' + message))
-                  .catch(() => window.prompt('Sao chép lệnh:', command));
-              } else {
-                window.prompt('Sao chép lệnh:', command);
-              }
-            }}
+            onClick={() => { setShowBuilder(!showBuilder); setCopied(false); }}
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
             aria-label={`Chuẩn bị lệnh tạo APP từ ${template.name}`}
           >
@@ -184,6 +158,33 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
+          {showBuilder && (
+            <div className="rounded-lg border border-[#c9a96e]/50 bg-[#faf8f5] p-3 space-y-3" aria-label="Cấu hình APP">
+              <p className="text-xs font-semibold text-[#1a1a1a]">Cấu hình APP · {template.name}</p>
+              <label className="block text-xs text-slate-700">Tên APP
+                <input value={appName} onChange={e => {setAppName(e.target.value);setCopied(false);}} maxLength={60}
+                  className="mt-1 w-full rounded border border-[#d3c7b7] bg-white p-2 text-sm" />
+              </label>
+              <label className="block text-xs text-slate-700">Thương hiệu
+                <input value={brand} onChange={e => {setBrand(e.target.value);setCopied(false);}} maxLength={60}
+                  className="mt-1 w-full rounded border border-[#d3c7b7] bg-white p-2 text-sm" />
+              </label>
+              <p className="text-[11px] text-slate-600">Source được tạo trên HOCUONG; website không tự chạy lệnh từ xa.</p>
+              <button
+                type="button"
+                disabled={!/^[A-Za-z0-9_-]{3,60}$/.test(appName) || !/^[A-Za-z0-9_-]{1,60}$/.test(brand)}
+                onClick={() => {
+                  const cmd = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + appName + ' ' + brand;
+                  if (navigator.clipboard?.writeText) {
+                    void navigator.clipboard.writeText(cmd).then(() => setCopied(true)).catch(() => window.prompt('Sao chép lệnh:', cmd));
+                  } else { window.prompt('Sao chép lệnh:', cmd); }
+                }}
+                className="w-full rounded bg-[#1a1a1a] px-3 py-2 text-xs font-semibold text-white disabled:opacity-40">
+                {copied ? 'Đã sao chép · chạy trên HOCUONG' : 'Sao chép lệnh tạo APP'}
+              </button>
+            </div>
+          )}
+          
           {/* Secondary Action Row: "Live Demo" and "View Source" */}
           <div className="grid grid-cols-2 gap-2">
             <button
