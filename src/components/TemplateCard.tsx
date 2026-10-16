@@ -146,11 +146,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           
           {/* Very prominent Gold "Báo giá" (Get Quote) CTA button */}
           <button
-            onClick={() => onOpenQuote(template.name)}
+            onClick={() => window.open(template.sourceUrl, "_blank", "noopener,noreferrer")}
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
-            aria-label={`Get quote for ${template.name}`}
+            aria-label={`Open source repository for ${template.name}`}
           >
-            <span>Tùy biến mẫu</span>
+            <span>Lấy source để tùy biến</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
@@ -159,19 +159,19 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <button
               onClick={() => onOpenLiveDemo(template)}
               className="py-1.5 px-2.5 text-xs font-medium text-[#1a1a1a] bg-[#faf8f5] hover:bg-[#e8e0d5]/70 border border-[#d3c7b7] rounded transition-colors flex items-center justify-center gap-1 cursor-pointer"
-              title="Interactive Live Demo Simulator"
+              title="Preview layout in gallery"
             >
               <Eye className="w-3.5 h-3.5 text-slate-600" />
               <span>Simulator</span>
             </button>
 
             <button
-              onClick={() => onOpenViewSource(template)}
+              onClick={() => window.open(template.sourceUrl, "_blank", "noopener,noreferrer")}
               className="py-1.5 px-2.5 text-xs font-medium text-[#1a1a1a] bg-[#faf8f5] hover:bg-[#e8e0d5]/70 border border-[#d3c7b7] rounded transition-colors flex items-center justify-center gap-1 cursor-pointer"
-              title="View Source Code & Files"
+              title="Open original GitHub repository"
             >
               <Code2 className="w-3.5 h-3.5 text-slate-600" />
-              <span>Source</span>
+              <span>GitHub</span>
             </button>
           </div>
 
