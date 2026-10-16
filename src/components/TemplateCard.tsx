@@ -152,18 +152,28 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 window.open(template.sourceUrl, '_blank', 'noopener,noreferrer');
                 return;
               }
-              const safeName = 'HC-' + template.id + '-App';
+              const defaultName = 'HC-' + template.id + '-App';
+              const chosen = window.prompt('Tên APP mới trên HOCUONG (chữ, số, _ hoặc -):', defaultName);
+              if (chosen === null) return;
+              const safeName = chosen.trim();
+              if (!/^[A-Za-z0-9_-]{3,60}$/.test(safeName)) {
+                window.alert('Tên APP không hợp lệ. Dùng 3–60 ký tự: chữ, số, _ hoặc -.');
+                return;
+              }
               const command = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + safeName + ' HCDecor';
-              void navigator.clipboard.writeText(command).then(() => {
-                window.alert('Đã sao chép lệnh tạo APP trên HOCUONG:\\n' + command + '\\n\\nChạy lệnh trong CMD trên HOCUONG.');
-              }).catch(() => {
-                window.prompt('Sao chép lệnh và chạy trên HOCUONG:', command);
-              });
+              const message = 'Lệnh tạo APP đã sẵn sàng. Chạy trên HOCUONG (không tự chạy từ website):\\n' + command;
+              if (navigator.clipboard?.writeText) {
+                void navigator.clipboard.writeText(command)
+                  .then(() => window.alert('Đã sao chép. ' + message))
+                  .catch(() => window.prompt('Sao chép lệnh:', command));
+              } else {
+                window.prompt('Sao chép lệnh:', command);
+              }
             }}
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
-            aria-label={`Open source repository for ${template.name}`}
+            aria-label={`Chuẩn bị lệnh tạo APP từ ${template.name}`}
           >
-            <span>Tạo APP từ source</span>
+            <span>Tạo APP trên HOCUONG</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
