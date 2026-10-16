@@ -153,18 +153,25 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 return;
               }
               const defaultName = 'HC-' + template.id + '-App';
-              const chosen = window.prompt('Tên APP mới trên HOCUONG (chữ, số, _ hoặc -):', defaultName);
+              const chosen = window.prompt('Tên APP mới trên HOCUONG:', defaultName);
               if (chosen === null) return;
               const safeName = chosen.trim();
               if (!/^[A-Za-z0-9_-]{3,60}$/.test(safeName)) {
-                window.alert('Tên APP không hợp lệ. Dùng 3–60 ký tự: chữ, số, _ hoặc -.');
+                window.alert('Tên APP phải có 3–60 ký tự chữ, số, _ hoặc -.');
                 return;
               }
-              const command = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + safeName + ' HCDecor';
-              const message = 'Lệnh tạo APP đã sẵn sàng. Chạy trên HOCUONG (không tự chạy từ website):\\n' + command;
+              const chosenBrand = window.prompt('Thương hiệu / Brand:', 'HCDecor');
+              if (chosenBrand === null) return;
+              const brand = chosenBrand.trim();
+              if (!/^[A-Za-z0-9_-]{1,60}$/.test(brand)) {
+                window.alert('Brand chỉ dùng chữ, số, _ hoặc - (1–60 ký tự).');
+                return;
+              }
+              const command = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + safeName + ' ' + brand;
+              const message = 'TEMPLATE: ' + template.name + '\\nAPP: ' + safeName + '\\nBRAND: ' + brand + '\\n\\nChạy trên HOCUONG:\\n' + command;
               if (navigator.clipboard?.writeText) {
                 void navigator.clipboard.writeText(command)
-                  .then(() => window.alert('Đã sao chép. ' + message))
+                  .then(() => window.alert('Đã sao chép lệnh.\\n\\n' + message))
                   .catch(() => window.prompt('Sao chép lệnh:', command));
               } else {
                 window.prompt('Sao chép lệnh:', command);
