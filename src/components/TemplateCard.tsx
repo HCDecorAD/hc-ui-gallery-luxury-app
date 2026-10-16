@@ -146,11 +146,24 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           
           {/* Very prominent Gold "Báo giá" (Get Quote) CTA button */}
           <button
-            onClick={() => window.open(template.sourceUrl, "_blank", "noopener,noreferrer")}
+            onClick={() => {
+              const supported = ['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'];
+              if (!supported.includes(template.id)) {
+                window.open(template.sourceUrl, '_blank', 'noopener,noreferrer');
+                return;
+              }
+              const safeName = 'HC-' + template.id + '-App';
+              const command = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + safeName + ' HCDecor';
+              void navigator.clipboard.writeText(command).then(() => {
+                window.alert('Đã sao chép lệnh tạo APP trên HOCUONG:\\n' + command + '\\n\\nChạy lệnh trong CMD trên HOCUONG.');
+              }).catch(() => {
+                window.prompt('Sao chép lệnh và chạy trên HOCUONG:', command);
+              });
+            }}
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
             aria-label={`Open source repository for ${template.name}`}
           >
-            <span>Lấy source để tùy biến</span>
+            <span>Tạo APP từ source</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
