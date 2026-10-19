@@ -161,7 +161,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             className="w-full bg-[#c9a96e] hover:bg-[#b89555] active:scale-[0.98] text-[#1a1a1a] font-semibold text-xs sm:text-sm py-2.5 px-4 rounded shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c9a96e]"
             aria-label={`Chuẩn bị lệnh tạo APP từ ${template.name}`}
           >
-            <span>{['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'].includes(template.id) ? 'Tạo APP trên HOCUONG' : 'Xem source GitHub'}</span>
+            <span>{['coreui', 'tabler', 'adminlte', 'shadcn', 'astro-cactus', 'commerce'].includes(template.id) ? 'Cấu hình APP cho HOCUONG' : 'Xem source GitHub'}</span>
             <ArrowUpRight className="w-4 h-4 text-[#1a1a1a]" />
           </button>
 
@@ -176,7 +176,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 <input value={brand} onChange={e => {setBrand(e.target.value);setCopied(false);}} maxLength={60}
                   className="mt-1 w-full rounded border border-[#d3c7b7] bg-white p-2 text-sm" />
               </label>
-              <p className="text-[11px] text-slate-600">Source được tạo trên HOCUONG; website không tự chạy lệnh từ xa.</p>
+              <p className="text-[11px] text-slate-600">Tải file JSON, sau đó kéo thả vào D:\\HCDecorHUB\\HC-App-Public-Flow.bat trên HOCUONG để tạo, build và preview APP. Website không tự chạy lệnh trên máy.</p>
               <button
                 type="button"
                 disabled={!/^[A-Za-z0-9_-]{3,60}$/.test(appName) || !/^[A-Za-z0-9_-]{1,60}$/.test(brand)}
