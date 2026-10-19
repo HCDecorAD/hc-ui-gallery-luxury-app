@@ -200,6 +200,14 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 className="w-full rounded border border-[#1a1a1a] px-3 py-2 text-xs font-semibold text-[#1a1a1a] disabled:opacity-40">
                 Tải cấu hình APP (.json)
               </button>
+              <a
+                href="https://raw.githubusercontent.com/HCDecorAD/hc-ui-gallery-luxury-app/main/tools/HC-App-Import.ps1"
+                download="HC-App-Import.ps1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center text-xs underline text-[#525252] hover:text-[#1a1a1a]">
+                Tải công cụ nhập JSON trên HOCUONG (.ps1)
+              </a>
               <button
                 type="button"
                 disabled={!/^[A-Za-z0-9_-]{3,60}$/.test(appName) || !/^[A-Za-z0-9_-]{1,60}$/.test(brand)}
