@@ -181,6 +181,29 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 type="button"
                 disabled={!/^[A-Za-z0-9_-]{3,60}$/.test(appName) || !/^[A-Za-z0-9_-]{1,60}$/.test(brand)}
                 onClick={() => {
+                  const manifest = {
+                    schema: 'hc-app-config/v1',
+                    template: template.id,
+                    appName,
+                    brand
+                  };
+                  const blob = new Blob([JSON.stringify(manifest, null, 2) + '\n'], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = appName + '.hc-app.json';
+                  document.body.appendChild(link);
+                  link.click();
+                  link.remove();
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
+                }}
+                className="w-full rounded border border-[#1a1a1a] px-3 py-2 text-xs font-semibold text-[#1a1a1a] disabled:opacity-40">
+                Tải cấu hình APP (.json)
+              </button>
+              <button
+                type="button"
+                disabled={!/^[A-Za-z0-9_-]{3,60}$/.test(appName) || !/^[A-Za-z0-9_-]{1,60}$/.test(brand)}
+                onClick={() => {
                   const cmd = 'D:\\HCDecorHUB\\HC-App-Builder.bat ' + template.id + ' ' + appName + ' ' + brand;
                   if (navigator.clipboard?.writeText) {
                     void navigator.clipboard.writeText(cmd).then(() => setCopied(true)).catch(() => window.prompt('Sao chép lệnh:', cmd));
